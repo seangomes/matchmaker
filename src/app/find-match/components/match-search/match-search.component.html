@@ -1,0 +1,55 @@
+
+<div class="container">
+  <h1>Search for match</h1>
+
+  <form>
+      <div class="form-group row">
+          <label for="teamsize" class="col-sm-2 col-form-label">Team size:</label>
+          <div class="col-sm-10">
+              <button class="btn btn-default">5vs5</button>
+              <button class="btn btn-default">2vs2</button>
+            </div>
+        </div>
+    </form>
+
+  <!-- <select class="form-control">
+    <option *ngFor="let matchType of this.matchTypeList">{{matchType.name}}</option>
+  </select> -->
+
+  <!--Map section-->
+  <section class="mapSection">
+    <h4>Choose map (max 2)</h4>
+    <div class="input-group mb-3">
+      <div *ngFor="let map of mapList">
+        <div *ngIf="map.selected">
+          <button class="btn btn-success selectButtons" (click)="addMap(map)">{{map.name}}</button>
+        </div>
+        <div *ngIf="!map.selected">
+          <button class="btn btn-primary selectButtons" (click)="addMap(map)">{{map.name}}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Rank selection-->
+  <section class="rankSection">
+    <h4>Choose your rank</h4>
+    <div class="input-group mb-3">
+      <div *ngFor="let skillGroup of this.skillList;">
+        <div *ngFor="let skill of skillGroup;">
+          <div *ngIf="skill.selected">
+            <img [src]="skill.imageUrl" class="img-thumbnail selctedImage" (click)="addRank(skill)" alt="skill.name" width="100" height="100">
+          </div>
+          <div *ngIf="!skill.selected">
+            <img [src]="skill.imageUrl" class="img-thumbnail" (click)="this.addRank(skill)" alt="skill.name" width="100" height="100">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <select class="form-control">
+      <option *ngFor="let clan of this.isClan">{{clan}}</option>
+    </select>
+</div>

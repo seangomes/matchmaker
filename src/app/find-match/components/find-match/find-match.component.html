@@ -1,0 +1,8 @@
+<div class="container">
+  <ul *ngFor="let match of matches$ | async as matches">
+    <li>{{match | json}}</li>
+  </ul>
+</div>
+
+
+<app-match-search></app-match-search>

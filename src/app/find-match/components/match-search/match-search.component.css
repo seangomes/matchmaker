@@ -1,0 +1,17 @@
+.matchContainer {
+  margin-top: 25px;
+  height: 100%;
+}
+
+.matchBtn {
+  width: 50%;
+
+}
+
+.selectButtons {
+  margin-right: 10px;
+}
+
+.selctedImage {
+  background-color: green;
+}
