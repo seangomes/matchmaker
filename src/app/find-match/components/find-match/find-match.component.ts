@@ -10,6 +10,8 @@ import { Match } from '../../models/match';
 })
 export class FindMatchComponent implements OnInit {
 
+  tabPanels = ["FindMatch"];
+
   matches$ : Observable<Match[]>;
 
   constructor(private findMatchService: FindmatchService) { }

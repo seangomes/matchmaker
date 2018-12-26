@@ -5,9 +5,11 @@ import { FindMatchRoutingModule } from './find-match-routing.module';
 import { FindMatchComponent } from './components/find-match/find-match.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 import { MatchSearchComponent } from './components/match-search/match-search.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { TabComponent } from './components/tab/tab.component';
 
 @NgModule({
-  declarations: [FindMatchComponent, ChatMessageComponent, MatchSearchComponent],
+  declarations: [FindMatchComponent, ChatMessageComponent, MatchSearchComponent, TabsComponent, TabComponent],
   imports: [
     CommonModule,
     FindMatchRoutingModule
