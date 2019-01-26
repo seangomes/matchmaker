@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Tab } from '../../models/tab';
+import { ChatService } from '../../providers/chat.service';
 
 @Component({
   selector: 'app-tabs',
@@ -9,9 +10,12 @@ import { Tab } from '../../models/tab';
 export class TabsComponent {
 
   tabs:Tab[] = [];
-  @Output() selected = new EventEmitter();
+  //@Output() selected = new EventEmitter();
 
-  constructor() { }
+  constructor(private chatService: ChatService) {
+    //Get currentUser active tabs
+
+   }
 
   ngOnInit() {
   }
@@ -29,5 +33,6 @@ export class TabsComponent {
     }
     this.tabs.push(tab);
   }
+
 
 }

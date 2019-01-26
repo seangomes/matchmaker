@@ -1,10 +1,9 @@
-import { Map } from "./map";
-
 export class Match {
   id?:string;
-  userId?:string;
-  maps: Map[];
+  maps: string[];
   rank: string;
   teamSize:string;
   matchType:string;
+  postedby: string;
+  date: string;
 }

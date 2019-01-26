@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from "../../../shared/models/user";
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -19,9 +19,7 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
     this.currentUser$ = this.afAuth.authState.pipe(
       switchMap(user => {
-        console.log(user);
         if (user) {
-          console.log(user);
           this.userCollection.doc(user.uid).update({
             isOnline: true
           }).then(() => {
@@ -31,9 +29,9 @@ export class AuthService {
               isOnline: true,
               photoURL: user.photoURL,
               username: user.displayName,
+              rooms:[]
             }
             this.currentUserSubject.next(fbUser);
-            console.log("user subject", this.currentUserSubject.getValue());
           });
 
           return this.afs.doc<User>('users/' + user.uid).valueChanges();
@@ -51,6 +49,13 @@ export class AuthService {
       });
    }
 
+   get getCurrentUser() {
+     return this.currentUserSubject.getValue();
+   }
+
+   getUserById(userId:string) : User {
+      return this.userCollection.doc<User>(userId).snapshotChanges().subscribe();
+   }
 
    loginWithEmailAndPassword(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
@@ -120,6 +125,16 @@ export class AuthService {
           });
       }
     });
+  }
+
+  //Change user details
+  changeUser(user: User) {
+    if (user) {
+      this.userCollection.doc(user.uid).update(user)
+      .then((docRef) => {
+        this.router.navigate(['home']);
+      });
+    }
   }
 
 }

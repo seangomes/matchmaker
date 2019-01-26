@@ -1,3 +1,84 @@
-<p>
-  chat-message works!
-</p>
+<div class="matchContainer row">
+
+  <!--Filter match chat-->
+  <div class="col-4">
+    <div class="card">
+      <h5 class="card-header">Filters</h5>
+      <div class="card-body">
+        <!--Match Type-->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Match Type</label>
+          <select class="form-control" [(ngModel)]="this.selectedMatchType" (change)="this.filterValues($event.target.value, 'matchtype')">
+            <option value="">--All--</option>
+            <option value="Clan">Clan</option>
+            <option value="Mix">Mix</option>
+          </select>
+        </div>
+        <!--Maps-->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Maps</label>
+          <select class="form-control" [(ngModel)]="this.selectedMap" (change)="this.filterValues($event.target.value, 'map')">
+            <option value="">--All--</option>
+            <option *ngFor="let map of mapList" [value]="map.name">
+              {{map.name}}
+            </option>
+          </select>
+        </div>
+        <!--Skills-->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Skill</label>
+          <select class="form-control" [(ngModel)]="this.selectedRank" (change)="this.filterValues($event.target.value, 'rank')">
+            <option value="">--All--</option>
+            <option *ngFor="let skill of skillList" [value]="skill.name">
+              {{skill.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!--Reset filter-->
+      <div class="form-group">
+        <button style="width:100%;" class="btn btn-danger" (click)="this.resetFilters()">Reset filters</button>
+      </div>
+    </div>
+  </div>
+
+  <!--Match chat-->
+  <div class="col-8">
+    <div class="card">
+      <h5 class="card-header">Active Matches</h5>
+      <div class="card-body">
+        <div *ngFor="let match of matchMessages | async | matchFilter: this.selectedMatchType:this.selectedRank">
+          <div class="alert alert-secondary" role="alert">
+            <h6 class="row">
+              <div class="col"><i class="fas fa-users"></i> {{match.teamSize}}</div>
+              <div class="col"><i class="fas fa-hashtag"></i> {{match.matchType}}</div>
+              <div class="col-4"><i class="fas fa-clock"></i> {{match.date}}</div>
+              <div class="col"><span class="float-right contact-player" (click)="this.contactPlayer(match.userId)"><i class="fas fa-comment"></i> {{match.postedby}}</span></div>
+            </h6>
+            <h6>
+              <div class="container row">
+                <span *ngFor="let map of match.maps" class="col-6 text-center">
+                  <div *ngIf="map === 'Dust2'"><img class="mapImageProp" src="../../../../assets/images/maps/de_dust2.jpg"><br><span>de_dust2</span></div>
+                  <div *ngIf="map === 'Nuke'"><img class="mapImageProp" src="../../../../assets/images/maps/de_nuke.jpg"><br><span>de_nuke</span></div>
+                  <div *ngIf="map === 'Mirage'"><img class="mapImageProp" src="../../../../assets/images/maps/de_mirage.jpg"><br><span>de_mirage</span></div>
+                  <div *ngIf="map === 'Inferno'"><img class="mapImageProp" src="../../../../assets/images/maps/de_inferno.jpg"><br><span>de_inferno</span></div>
+                  <div *ngIf="map === 'Cobblestone'"><img class="mapImageProp" src="../../../../assets/images/maps/de_cobblestone.png"><br><span>de_cobblestone</span></div>
+                  <div *ngIf="map === 'Overpass'"><img class="mapImageProp" src="../../../../assets/images/maps/de_overpass.png"><br><span>de_overpass</span></div>
+                  <div *ngIf="map === 'Cache'"><img class="mapImageProp" src="../../../../assets/images/maps/de_cache.jpg"><br><span>de_cache</span></div>
+                  <div *ngIf="map === 'Train'"><img class="mapImageProp" src="../../../../assets/images/maps/de_train.jpg"><br><span>de_train</span></div>
+                </span>
+              </div>
+            </h6>
+            <h6 class="text-center">
+              <div *ngFor="let skill of skillList">
+                <div *ngIf="skill.name === match.rank">
+                    <img class="rankProp" [src]="skill.imageUrl"><br>{{match.rank}}</div>
+                </div>
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

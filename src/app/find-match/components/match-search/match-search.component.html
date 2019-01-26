@@ -1,20 +1,35 @@
-
 <div class="container">
   <h1>Search for match</h1>
 
-  <form>
-      <div class="form-group row">
-          <label for="teamsize" class="col-sm-2 col-form-label">Team size:</label>
-          <div class="col-sm-10">
-              <button class="btn btn-default">5vs5</button>
-              <button class="btn btn-default">2vs2</button>
-            </div>
+  <!--Team type section-->
+  <section class="teamSection">
+    <h4>Choose Team Size</h4>
+    <div class="input-group mb-3">
+      <div *ngFor="let teamType of teamTypeList">
+        <div *ngIf="teamType.selected">
+          <button class="btn btn-success selectButtons matchTypeBtn" (click)="addTeamType(teamType)">{{teamType.name}}</button>
         </div>
-    </form>
+        <div *ngIf="!teamType.selected">
+          <button class="btn btn-primary selectButtons matchTypeBtn" (click)="addTeamType(teamType)">{{teamType.name}}</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- <select class="form-control">
-    <option *ngFor="let matchType of this.matchTypeList">{{matchType.name}}</option>
-  </select> -->
+  <!--Match type section-->
+  <section class="matchSection">
+    <h4>Choose Clan Or Mix</h4>
+    <div class="input-group mb-3">
+      <div *ngFor="let matchType of matchTypeList">
+        <div *ngIf="matchType.selected">
+          <button class="btn btn-success selectButtons matchTypeBtn" (click)="addMatchType(matchType)">{{matchType.name}}</button>
+        </div>
+        <div *ngIf="!matchType.selected">
+          <button class="btn btn-primary selectButtons matchTypeBtn" (click)="addMatchType(matchType)">{{matchType.name}}</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!--Map section-->
   <section class="mapSection">
@@ -38,18 +53,26 @@
       <div *ngFor="let skillGroup of this.skillList;">
         <div *ngFor="let skill of skillGroup;">
           <div *ngIf="skill.selected">
-            <img [src]="skill.imageUrl" class="img-thumbnail selctedImage" (click)="addRank(skill)" alt="skill.name" width="100" height="100">
+            <img [src]="skill.imageUrl" class="img-thumbnail selctedImage" (click)="addRank(skill)" alt="skill.name"
+              width="100" height="100">
           </div>
           <div *ngIf="!skill.selected">
-            <img [src]="skill.imageUrl" class="img-thumbnail" (click)="this.addRank(skill)" alt="skill.name" width="100" height="100">
+            <img [src]="skill.imageUrl" class="img-thumbnail" (click)="this.addRank(skill)" alt="skill.name" width="100"
+              height="100">
           </div>
         </div>
       </div>
     </div>
   </section>
 
-
-  <select class="form-control">
-      <option *ngFor="let clan of this.isClan">{{clan}}</option>
-    </select>
+  <!--Validation message-->
+  <div class="alert alert-danger" role="alert" *ngIf="validationMessage !== ''">
+    {{validationMessage}}
+  </div>
+  <!--Final search result-->
+  <section class="finalResultSection" *ngIf="selectedTeamSizeType !== '' && selectedMatchType !== '' && selectedMaps.length > 0 && selectedRank !== ''">
+    <h4>Your final search result:</h4>
+    <p>{{selectedTeamSizeType}} | {{selectedMatchType}} | maps: {{selectedMaps | json}} | rank: {{selectedRank}}</p>
+    <button class="btn btn-success" (click)="findMatch()">Post your match!</button>
+  </section>
 </div>

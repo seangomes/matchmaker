@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 
 //SERVICES
 import { AuthService } from './providers/auth/auth.service';
+import { UploadService } from "./providers/upload/upload.service";
 import { AuthGuard } from './providers/guard/auth.guard';
 
 
@@ -23,7 +24,7 @@ import { AuthGuard } from './providers/guard/auth.guard';
     AngularFireStorageModule,
     AngularFireAuthModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, UploadService],
   exports: [RouterModule]
 })
 export class CoreModule {

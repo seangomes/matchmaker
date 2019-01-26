@@ -1,0 +1,21 @@
+.matchContainer {
+  margin: 5px;
+}
+
+.mapImageProp {
+  width: 200px;
+  height: 100px;
+}
+
+.rankProp {
+  width: 150px;
+  height: 60px;
+}
+
+.contact-player {
+  cursor: pointer;
+}
+
+.container {
+  padding: 10px;
+}

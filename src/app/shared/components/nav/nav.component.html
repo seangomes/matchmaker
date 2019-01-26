@@ -20,7 +20,7 @@
         <button class="btn btn-danger" [routerLink]="['/register']">Register</button>
       </div>
       <div *ngIf="currentUser">
-        <span class="userInfoContent" [routerLink]="['/edituser']">
+        <span class="userInfoContent" [routerLink]="['/edit-user']">
           <img class="userPhoto img-thumbnail" [src]="currentUser?.photoURL" height="40" width="40" /> {{currentUser?.username}} |
         </span>
         <button class="btn btn-sm btn-danger logoutBtn" (click)="logout()">Logout</button>

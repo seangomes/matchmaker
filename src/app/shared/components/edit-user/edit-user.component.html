@@ -1,3 +1,74 @@
-<p>
-  edit-user works!
-</p>
+<div class="container rowSpace">
+  <h1 class="text-center">Update userinfo</h1>
+  <div class="alert alert-success" role="alert" *ngIf="respondMessage !== ''">
+    {{respondMessage}}
+  </div>
+
+  <!-- Image Field Prewview -->
+  <div class="form-group">
+    <div *ngIf="url">
+      <img [src]="url" class="img-thumbnail" height="100" width="100" />
+    </div>
+  </div>
+
+  <!-- Image Field-->
+  <app-upload-file *ngIf="user" [refId]="user.uid"></app-upload-file>
+  <form [formGroup]="this.userDetailsForm" (ngSubmit)="changeUserDetails()" novalidate>
+    <!--Firstname Field-->
+    <div class="form-group">
+      <label for="exampleInputFirstname">Firstname</label>
+      <input type="text" formControlName="firstname" class="form-control" id="exampleInputFirstname" aria-describedby="emailHelp"
+        placeholder="Firstname">
+      <!--Firstname Error message-->
+      <!-- <div *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched">
+          <div class="alert alert-danger errorSpace" role="alert">
+            Email is invalid!
+          </div>
+        </div> -->
+    </div>
+    <!--Lastname Field-->
+    <div class="form-group">
+      <label for="exampleInputLastname">Lastname</label>
+      <input type="text" formControlName="lastname" class="form-control" id="exampleInputLastname" placeholder="Lastname">
+      <!--Lastname Error message-->
+      <!-- <div *ngIf="registerForm.controls.password.invalid && registerForm.controls.password.touched">
+        <div class="alert alert-danger errorSpace" role="alert">
+          Password is required!
+        </div>
+      </div> -->
+    </div>
+    <!--Age Field-->
+    <div class="form-group">
+      <label for="exampleInputAge">Age</label>
+      <input type="text" formControlName="age" class="form-control" id="exampleInputAge" placeholder="Age">
+      <!--Age Error message-->
+      <!-- <div *ngIf="username.invalid && username.touched">
+            <div class="alert alert-danger errorSpace" role="alert">
+              Username is required!
+            </div>
+          </div> -->
+    </div>
+    <!--Country Field-->
+    <div class="form-group">
+      <label for="exampleInputCountry">Country</label>
+      <select class="form-control" formControlName="country" id="exampleInputCountry">
+        <option *ngFor="let country of countries" [ngValue]="country">{{country}}</option>
+      </select>
+    </div>
+    <!--Favorite Weapon-->
+    <div class="form-group">
+      <label for="exampleInputFavWeap">Favorite Weapon</label>
+      <select class="form-control" formControlName="favweap" id="exampleInputFavWeap">
+        <option *ngFor="let favweap of favweapons" [ngValue]="favweap">{{favweap}}</option>
+      </select>
+    </div>
+    <!--Rank-->
+    <div class="form-group">
+      <label for="exampleInputRank">Your Rank</label>
+      <select class="form-control" formControlName="rank" id="exampleInputRank">
+        <option *ngFor="let rank of ranks" [ngValue]="rank">{{rank}}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-danger registerBtn" [disabled]="!userDetailsForm.valid">Update Profile</button>
+  </form>
+</div>
