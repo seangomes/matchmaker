@@ -53,10 +53,6 @@ export class AuthService {
      return this.currentUserSubject.getValue();
    }
 
-   getUserById(userId:string) : User {
-      return this.userCollection.doc<User>(userId).snapshotChanges().subscribe();
-   }
-
    loginWithEmailAndPassword(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((userData) => {
@@ -102,6 +98,7 @@ export class AuthService {
         username: username,
         isOnline: false,
         uid: userData.user.uid,
+        rooms: []
       }
       this.userCollection.doc(userData.user.uid).set(newUser)
       .then((docRef) => {
@@ -126,15 +123,4 @@ export class AuthService {
       }
     });
   }
-
-  //Change user details
-  changeUser(user: User) {
-    if (user) {
-      this.userCollection.doc(user.uid).update(user)
-      .then((docRef) => {
-        this.router.navigate(['home']);
-      });
-    }
-  }
-
 }

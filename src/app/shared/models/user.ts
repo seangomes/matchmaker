@@ -12,5 +12,5 @@ export class User {
   rank?:string;
   clan?:string;
   country?:string
-  rooms:any[];
+  rooms?:any[];
 }

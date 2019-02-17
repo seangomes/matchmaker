@@ -1,3 +1,4 @@
+import { AuthService } from './../../../core/providers/auth/auth.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { Match } from '../../models/match';
 import { ChatService } from '../../providers/chat.service';
@@ -47,7 +48,7 @@ export class ChatMessageComponent implements OnInit {
 
   @Input() matchMessages : Match[];
 
-  constructor(private chatService: ChatService) { }
+  constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -74,7 +75,7 @@ export class ChatMessageComponent implements OnInit {
 
   contactPlayer(guestUserId: string) {
     if(guestUserId) {
-      this.chatService.spawnRoom(guestUserId);
+      this.chatService.spawnRoom(guestUserId, this.authService.getCurrentUser);
     }
   }
 

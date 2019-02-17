@@ -1,3 +1,4 @@
+import { UserService } from './../../core/providers/user/user.service';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../core/providers/auth/auth.service';
 import { ChatRoom } from '../models/chatroom';
@@ -14,12 +15,12 @@ export class ChatService {
   public myChatRoomCollection: AngularFirestoreCollection<ChatRoom>;
   public myActiceTabs: Tab[] = [];
 
-  constructor(private authService: AuthService, private afs: AngularFirestore) {
+  constructor(private authService: AuthService, private afs: AngularFirestore, private userService : UserService) {
     const currentUserId = this.authService.getCurrentUser.uid;
 
    }
 
-  spawnRoom(guestUserId: string) {
+  spawnRoom(guestUserId: string, spawner: User) {
     const chatRoomRef = this.afs.collection('chatrooms');
     //Generate new id
     const newChatRoomId = this.afs.createId();
@@ -39,15 +40,16 @@ export class ChatService {
       }
       this.authService.getCurrentUser.rooms.push(userUpdateObject);
       //Adding new tab
-      this.authService.getUserById(guestUserId).subscribe((gu) : User => {
+      this.userService.getUserById(guestUserId).subscribe((guestUser : User) => {
         let newTab:Tab = {
           id:newChatRoomId,
-          userId: 
-        }
-      })
-      
-      this.myActiceTabs.push()
+          userId: guestUser.uid,
+          active: true,
+          tabTitle: spawner.username
+        };
 
+        this.myActiceTabs.push(newTab);
+      });
     })
 
 

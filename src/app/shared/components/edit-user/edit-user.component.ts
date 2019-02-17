@@ -1,3 +1,4 @@
+import { UserService } from './../../../core/providers/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { AuthService } from '../../../core/providers/auth/auth.service';
@@ -22,7 +23,7 @@ export class EditUserComponent implements OnInit {
                    "MasterGuardian", "MasterGuardian2", "MasterGuardianElite",
                   "DistinguishedMasterGuardian", "LegendaryEagle", "LegendaryEagleMaster", "SupremeMasterFirstClass", "TheGlobalElite"];
 
-  constructor(private authService: AuthService, public fb: FormBuilder) {
+  constructor(private authService: AuthService, public fb: FormBuilder, private userService: UserService) {
     this.authService.currentUser$.subscribe((data) => {
       this.user = data;
 
@@ -83,12 +84,8 @@ export class EditUserComponent implements OnInit {
         firstname: this.userDetailsForm.value.firstname !== undefined ? this.userDetailsForm.value.firstname : "",
         lastname: this.userDetailsForm.value.lastname !== undefined ? this.userDetailsForm.value.lastname : ""
       }
-
-
       //goto service
-      this.authService.changeUser(this.user);
-
-
+      this.userService.editUser(this.user);
       this.respondMessage = 'Your user is now updated!';
     }
 
