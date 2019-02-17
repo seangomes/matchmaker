@@ -24,10 +24,11 @@ export class ChatService {
     const chatRoomRef = this.afs.collection('chatrooms');
     //Generate new id
     const newChatRoomId = this.afs.createId();
+
     //Create new obj
     const newChat: ChatRoom = {
       chatRoomId:newChatRoomId,
-      createdDate: Date.now.toString(),
+      createdDate: this.genereateDate(),
       createdByUserId: this.authService.getCurrentUser.uid,
       isActice:true
     }
@@ -35,8 +36,9 @@ export class ChatService {
     chatRoomRef.doc(newChatRoomId).set(newChat).then(() => {
       console.log("room added");
 
+      let roomIdToString = newChatRoomId;
       let userUpdateObject = {
-        newChatRoomId:true
+        roomIdToString:true
       }
       this.authService.getCurrentUser.rooms.push(userUpdateObject);
       //Adding new tab
@@ -52,12 +54,6 @@ export class ChatService {
       });
     })
 
-
-
-
-
-
-
   }
 
   endChat(tabId: string) {
@@ -68,5 +64,20 @@ export class ChatService {
 
   }
 
+  genereateDate() {
+    var date = new Date(),
+      year = date.getFullYear(),
+      month = (date.getMonth() + 1).toString(),
+      formatedMonth = (month.length === 1) ? ("0" + month) : month,
+      day = date.getDate().toString(),
+      formatedDay = (day.length === 1) ? ("0" + day) : day,
+      hour = date.getHours().toString(),
+      formatedHour = (hour.length === 1) ? ("0" + hour) : hour,
+      minute = date.getMinutes().toString(),
+      formatedMinute = (minute.length === 1) ? ("0" + minute) : minute,
+      second = date.getSeconds().toString(),
+      formatedSecond = (second.length === 1) ? ("0" + second) : second;
+    return formatedDay + "-" + formatedMonth + "-" + year + " " + formatedHour + ':' + formatedMinute + ':' + formatedSecond;
+  }
 
 }

@@ -2,7 +2,7 @@ import { AuthService } from './../auth/auth.service';
 import { User } from './../../../shared/models/user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -13,7 +13,9 @@ export class UserService {
   private userCollection: AngularFirestoreCollection<User>;
   public users$: Observable<User[]>;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private afs: AngularFirestore) {
+    this.userCollection = afs.collection('users');
+  }
 
   getAllUsers() : Observable<User[]> {
     return this.userCollection.valueChanges();
