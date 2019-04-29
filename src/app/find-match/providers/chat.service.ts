@@ -1,67 +1,80 @@
+import { ChatMessage } from './../models/chatmessage';
 import { UserService } from './../../core/providers/user/user.service';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../core/providers/auth/auth.service';
 import { ChatRoom } from '../models/chatroom';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../../shared/models/user';
 import { Tab } from '../models/tab';
+import { Chat } from '../models/chat';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  public myChatRoomCollection: AngularFirestoreCollection<ChatRoom>;
-  public myActiceTabs: Tab[] = [];
+  public chatCollection: AngularFirestoreCollection<Chat>;
+  public myTabsSubject: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
+  public myActiceTabs$: Observable<Tab[]> = this.myTabsSubject.asObservable();
 
   constructor(private authService: AuthService, private afs: AngularFirestore, private userService : UserService) {
     const currentUserId = this.authService.getCurrentUser.uid;
-
+    this.chatCollection = this.afs.collection('chats');
    }
 
-  spawnRoom(guestUserId: string, spawner: User) {
-    const chatRoomRef = this.afs.collection('chatrooms');
-    //Generate new id
-    const newChatRoomId = this.afs.createId();
-
-    //Create new obj
-    const newChat: ChatRoom = {
-      chatRoomId:newChatRoomId,
-      createdDate: this.genereateDate(),
-      createdByUserId: this.authService.getCurrentUser.uid,
-      isActice:true
+  sendChatMessage(message:string, reciverUserId:string) {
+    if(message == '' || reciverUserId == '') {
+      return;
     }
-    //Adding the room
-    chatRoomRef.doc(newChatRoomId).set(newChat).then(() => {
-      console.log("room added");
-
-      let roomIdToString = newChatRoomId;
-      let userUpdateObject = {
-        roomIdToString:true
+    else
+    {
+      let currentUserId : string = this.authService.getCurrentUser.uid; 
+      //create new ID
+      const newChatId = this.afs.createId();
+      //create object
+      let newChatMessage : ChatMessage = {
+        messageId: newChatId,
+        senderId: currentUserId,
+        reciverId: reciverUserId,
+        timestamp: new Date().toString(),
+        messageText: message
       }
-      this.authService.getCurrentUser.rooms.push(userUpdateObject);
-      //Adding new tab
-      this.userService.getUserById(guestUserId).subscribe((guestUser : User) => {
-        let newTab:Tab = {
-          id:newChatRoomId,
-          userId: guestUser.uid,
-          active: true,
-          tabTitle: spawner.username
-        };
-
-        this.myActiceTabs.push(newTab);
+      //check if chat node exsist
+      const combinedUserId = this.setOneToOneChat(this.authService.getCurrentUser.uid, reciverUserId);
+      this.chatCollection.doc(combinedUserId).get().subscribe(data => {
+        if(data.exists){
+          data.ref.set(newChatMessage).then(() => {
+            console.log("chat exsisting and message added");
+          });
+        }
+        else{
+          this.chatCollection.doc(combinedUserId).set(newChatMessage).then(() => {
+            console.log("chat NOT exsist but created and message added");
+          })
+        }
       });
-    })
-
+    }
   }
 
   endChat(tabId: string) {
 
   }
 
-  sendChatMessage(tabId: string) {
+  addNewTab(newTab:Tab) {
+    let myNewTab = this.myTabsSubject.getValue();
+    myNewTab.push(newTab);
+    this.myTabsSubject.next(myNewTab);
+  }
+  
 
+  private setOneToOneChat(userId1:string, userId2: string) {
+    //Check if user1’s id is less than user2's
+    if(userId1 < userId2) {
+      return userId1+'_'+userId2;
+    }else {
+      return userId2+'_'+userId1;
+    }
   }
 
   genereateDate() {

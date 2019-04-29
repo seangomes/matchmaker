@@ -1,4 +1,4 @@
-export interface Tab {
+export class Tab {
     id?:string;
     tabTitle?: string;
     active?:boolean;

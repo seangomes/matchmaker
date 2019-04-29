@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Match } from '../../models/match';
 import { ChatService } from '../../providers/chat.service';
 import { User } from '../../../shared/models/user';
+import { Tab } from '../../models/tab';
 
 @Component({
   selector: 'app-chat-message',
@@ -51,6 +52,7 @@ export class ChatMessageComponent implements OnInit {
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit() {
+   
   }
 
   filterValues(text:string, textType:string) {
@@ -73,9 +75,17 @@ export class ChatMessageComponent implements OnInit {
     this.selectedRank = '';
   }
 
-  contactPlayer(guestUserId: string) {
-    if(guestUserId) {
-      this.chatService.spawnRoom(guestUserId, this.authService.getCurrentUser);
+  contactPlayer(matchInfo: Match, userId : string) {
+    if(matchInfo) {
+      //this.chatService.spawnChat(guestUserId, this.authService.getCurrentUser.uid);
+      //add new tab
+      let newTab : Tab = {
+         id:userId,
+         tabTitle: matchInfo.postedby,
+         active:true,
+         userId: this.authService.getCurrentUser.uid
+      }
+      this.chatService.addNewTab(newTab);
     }
   }
 

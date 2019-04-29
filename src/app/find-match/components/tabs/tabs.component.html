@@ -1,6 +1,0 @@
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)">
-    <a class="nav-link active" id="{{tab.tabTitle}}-tab" data-toggle="tab" href="#{{tab.tabTitle}}" role="tab" [attr.aria-controls]="tab.tabTitle" aria-selected="true">{{tab.tabTitle}}</a>
-  </li>
-</ul>
-<ng-content></ng-content>

@@ -1,7 +1,7 @@
 export class ChatMessage {
-  id:string;
+  messageId:string;
   senderId: string;
   reciverId:string;
-  date:string;
+  timestamp:string;
   messageText: string;
 }

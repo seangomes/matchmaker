@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TabComponent } from './tab.component';
+import { ActiveChatListComponent } from './active-chat-list.component';
 
-describe('TabComponent', () => {
-  let component: TabComponent;
-  let fixture: ComponentFixture<TabComponent>;
+describe('ActiveChatListComponent', () => {
+  let component: ActiveChatListComponent;
+  let fixture: ComponentFixture<ActiveChatListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabComponent ]
+      declarations: [ ActiveChatListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TabComponent);
+    fixture = TestBed.createComponent(ActiveChatListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,40 +1,20 @@
-<div class="container">
-  <!-- <ul *ngFor="let match of matches$ | async as matches">
-    <li>{{match | json}}</li>
-  </ul> -->
-
-
-  <button class="btn btn-primary" [routerLink]="['/find-match/match-seach']" routerLinkActive="router-link-active" >Search match</button>
-  <br>
-  <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-        aria-selected="true">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-        aria-selected="false">Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-        aria-selected="false">Contact</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-  </div> -->
-
-  <app-tabs>
-    <app-tab [tabTitle]="'MatchFinder'">
-      <app-chat-message [matchMessages]="matches$"></app-chat-message>
-    </app-tab>
-    <app-tab tabTitle="Chat1">
-      Content 2
-    </app-tab>
-    <app-tab [tabTitle]="'Chat2'">
-      Content 3
-    </app-tab>
-  </app-tabs>
+<div id="wrapper">
+    <div class="row">
+        <section id="search" class="row col-md-12" style="margin-bottom:15px;">
+            <button class="btn btn-primary" [routerLink]="['/find-match/match-seach']" routerLinkActive="router-link-active" >Search match</button>
+        </section>
+    </div>
+    <div class="row">
+        <section class="row col-md-10">  
+            <app-chat-message [matchMessages]="matches$"></app-chat-message>
+          </section>
+          <section class="row col-md-2"> 
+              <app-active-chat-list></app-active-chat-list>
+          </section>
+          
+        </div>
+        
+        
+        
 </div>
+
